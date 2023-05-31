@@ -1,0 +1,9 @@
+<div>
+  <form (ngSubmit)="getInfo(inputValue.value)">
+    <input type="text" #inputValue>
+    <button type="submit">Send request</button>
+  </form>
+  <ng-container *ngFor="let item of competetions">
+    {{item.Title}} <br>
+  </ng-container>
+</div>

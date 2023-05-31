@@ -1,0 +1,17 @@
+.toolbar{
+    background-color: #3f51b5;
+    color: #FFFFFF;
+    padding: 20px;
+    .example-spacer{
+        flex: 1 1 auto;
+    }
+    button{
+        margin-right: 10px;
+        background-color: transparent;
+        color: #FFFFFF;
+        border: none;
+        font-size: 17px;
+        font-weight: 500;
+        cursor: pointer;
+    }
+}
