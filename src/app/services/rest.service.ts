@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,18 +9,27 @@ export class RestService {
   
   constructor(private http: HttpClient) { }
 
-  baseUrl: string = 'https://football98.p.rapidapi.com/';
+  baseUrl: string = 'https://dashboard.acuitytrading.com/OandaPriceApi/GetPrice?widgetName=oandainstrumentpage&apikey=4b12e6bb-7ecd-49f7-9bbc-2e03644ce41f';
+  headers = new HttpHeaders({
+    'authority': 'dashboard.acuitytrading.com',
+    'accept': 'application/json, text/plain, */*',
+    'accept-language': 'en,ru;q=0.9',
+    'access-control-allow-origin': '*',
+    'cache-control': 'no-cache',
+    'content-type': 'application/x-www-form-urlencoded',
+    'pragma': 'no-cache',
+    });
+    body: string = ''
 
-  headers: any = new HttpHeaders()
-  .set('X-RapidAPI-Key', '74372c2d06mshbc2adc05e2043cbp106c81jsnb9cb11216a38')
-  .set('X-RapidAPI-Host', 'football98.p.rapidapi.com');
-
-  getCompetetions(query: string): Observable<Object>{
-    if(query == "competetions"){
-      return this.http.get(this.baseUrl + query, {headers: this.headers})
+    getData(data: string): Observable<any> {
+      let goldBody = `lang=en-GB&region=OGM&instrumentName=XAU_USD${data ? `&granularity=${data}` : ''}`;
+      let silverBody = `lang=en-GB&region=OGM&instrumentName=XAG_USD${data ? `&granularity=${data}` : ''}`;
+      let bitcoinBody = `lang=en-GB&region=OGM&instrumentName=BTC_USD${data ? `&granularity=${data}` : ''}`;
+    
+      const goldRequest$ = this.http.post(this.baseUrl, goldBody, { headers: this.headers });
+      const silverRequest$ = this.http.post(this.baseUrl, silverBody, { headers: this.headers });
+      const bitcoinRequest$ = this.http.post(this.baseUrl, bitcoinBody, { headers: this.headers });
+    
+      return forkJoin([goldRequest$, silverRequest$, bitcoinRequest$]);
     }
-    else{
-      return this.http.get(this.baseUrl + "premierleague/" + query, {headers: this.headers})
-    }
-  }
 }

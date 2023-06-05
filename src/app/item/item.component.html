@@ -1,9 +1,11 @@
-<div>
-  <form (ngSubmit)="getInfo(inputValue.value)">
-    <input type="text" #inputValue>
-    <button type="submit">Send request</button>
-  </form>
-  <ng-container *ngFor="let item of competetions">
-    {{item.Title}} <br>
-  </ng-container>
-</div>
+<button  (click)="getCurrently()">Current</button>
+<button (click)="getDaily()">Daily</button>
+<button (click)="getMonthly()">Monthly</button> <br>
+<ng-container class="item" *ngFor="let item of wrapper">
+    <p>{{item.name}}</p>
+    <span style="margin-right: 10px;">{{item.d}}</span>
+    <span style="margin-right: 10px;">Low: {{item.l}}</span>
+    <span style="margin-right: 10px;">High: {{item.h}}</span>
+    <span>{{item.s}}</span>
+    <br>
+</ng-container>
