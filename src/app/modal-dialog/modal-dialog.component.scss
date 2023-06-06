@@ -1,0 +1,9 @@
+.modal{
+    min-width: 600px;
+    width: 100%;
+    .modal-top{
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+}

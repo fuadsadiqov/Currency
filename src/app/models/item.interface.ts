@@ -1,4 +1,5 @@
 export interface Item{
+    Instrument: string
     name: string
     b: number
     c: number

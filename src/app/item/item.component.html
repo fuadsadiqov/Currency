@@ -1,11 +1,24 @@
-<button  (click)="getCurrently()">Current</button>
+<!-- <button  (click)="getCurrently()">Current</button>
 <button (click)="getDaily()">Daily</button>
-<button (click)="getMonthly()">Monthly</button> <br>
-<ng-container class="item" *ngFor="let item of wrapper">
-    <p>{{item.name}}</p>
-    <span style="margin-right: 10px;">{{item.d}}</span>
-    <span style="margin-right: 10px;">Low: {{item.l}}</span>
-    <span style="margin-right: 10px;">High: {{item.h}}</span>
-    <span>{{item.s}}</span>
-    <br>
-</ng-container>
+<button (click)="getMonthly()">Monthly</button> <br> -->
+<div class="wrapper">
+    <ng-container *ngFor="let item of wrapper">
+        <div 
+        (mouseenter)="openDialog(item)" 
+        class="item"
+        >
+            <div class="item-top">
+                <img src="../../assets/{{item.name}}.png" height="20" alt="">
+                <span>{{item.name}}</span>
+            </div>
+            <div class="item-bottom">
+                <p>{{item.s | currency: 'USD'}}</p>
+                <div>
+                    {{item.c | currency: '%'}}
+                    <img *ngIf="item.c > 0" src="../../assets/up-trend-arrow-flat-icon-vector-40754071-removebg-preview.png" width="30" alt="Trending up">
+                    <img *ngIf="item.c < 0" src="../../assets/1307062.png" width="30" alt="Trending down">
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
