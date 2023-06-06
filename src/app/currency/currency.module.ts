@@ -6,8 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from '../app.component';
-import { ItemComponent } from '../item/item.component';
-import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
+import { ItemComponent } from './item/item.component';
+import { ModalDialogComponent } from '../currency/modal-dialog/modal-dialog.component';
 // NgChart
 import { NgChartsModule } from 'ng2-charts';
 // Angular Material

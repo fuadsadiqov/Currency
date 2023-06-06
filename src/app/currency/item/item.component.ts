@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { RestService } from '../services/rest.service';
-import { Item } from '../models/item.interface';
+import { RestService } from '../../services/rest.service';
+import { Item } from '../../models/item.interface';
 import {MatDialog} from '@angular/material/dialog';
 import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
 

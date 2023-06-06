@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Item } from '../models/item.interface';
-import { RestService } from '../services/rest.service';
-import { CandleItem } from '../models/candleItem.interface';
+import { Item } from '../../models/item.interface';
+import { RestService } from '../../services/rest.service';
+import { CandleItem } from '../../models/candleItem.interface';
 // Chart
 import {  ChartConfiguration, ChartType } from 'chart.js';
 import { Observable } from 'rxjs';
