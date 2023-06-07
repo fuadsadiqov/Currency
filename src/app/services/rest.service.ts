@@ -30,7 +30,7 @@ export class RestService {
       const silverRequest$ = this.http.post(this.baseUrl, silverBody, { headers: this.headers });
       const bitcoinRequest$ = this.http.post(this.baseUrl, bitcoinBody, { headers: this.headers });
       
-      return forkJoin([goldRequest$, silverRequest$, bitcoinRequest$, silverRequest$, goldRequest$]);
+      return forkJoin([goldRequest$, silverRequest$, bitcoinRequest$]);
     }
     // Get every element detail data
     getCandle(instrument: string){

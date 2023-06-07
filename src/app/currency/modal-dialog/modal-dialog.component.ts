@@ -69,8 +69,7 @@ export class ModalDialogComponent implements OnInit{
             .map((item: any) => item.mid.o).slice(-12);
             // To find first day time of every month in year
             this.modalTime = res.candles.filter((item: any) => item.time.substr(8, 2) === '01')
-            .map((item: any) => item.time.substring(0, 7)).slice(-12)
-            
+            .map((item: any) => item.time.substring(0, 7)).slice(-12) 
           }
         });
     }

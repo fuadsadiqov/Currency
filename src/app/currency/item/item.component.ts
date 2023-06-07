@@ -14,6 +14,7 @@ export class ItemComponent implements OnInit {
   public wrapper: any
   public prevWrapper: any
   private granularity!: string 
+  usdItem: any
   constructor(private restService: RestService, private dialog: MatDialog){}
   ngOnInit(): void {
     this.getData(this.granularity);
@@ -30,7 +31,7 @@ export class ItemComponent implements OnInit {
   getData(granularity: string) {
         this.restService.getData(granularity)
         .subscribe((res: any) => {
-          this.wrapper = res
+          this.wrapper = res          
         })
   }
     getCurrently() {
