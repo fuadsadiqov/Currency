@@ -12,6 +12,7 @@ import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
 export class ItemComponent implements OnInit {  
   public bitcoin: any = undefined
   public wrapper: any
+  public prevWrapper: any
   private granularity!: string 
   constructor(private restService: RestService, private dialog: MatDialog){}
   ngOnInit(): void {
@@ -27,10 +28,10 @@ export class ItemComponent implements OnInit {
   }
   
   getData(granularity: string) {
-    this.restService.getData(granularity)
-    .subscribe((res: any) => {
-      this.wrapper = res
-    })
+        this.restService.getData(granularity)
+        .subscribe((res: any) => {
+          this.wrapper = res
+        })
   }
     getCurrently() {
       let granularity!: string

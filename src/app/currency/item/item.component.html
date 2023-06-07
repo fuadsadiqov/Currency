@@ -1,21 +1,23 @@
 <div class="wrapper">
     <ng-container *ngFor="let item of wrapper">
-        <div 
-        (mouseenter)="openDialog(item)" 
-        class="item"
-        >
+        <div class="item" (mouseenter)="openDialog(item)">
             <div class="item-top">
-                <img src="../../assets/{{item.name}}.png" height="20" alt="">
-                <span>{{item.name}}</span>
+              <img src="../../assets/{{item.name}}.png" height="20" alt="{{item.name}} icon">
+              <span>{{item.name}}</span>
             </div>
             <div class="item-bottom">
-                <p>{{item.s | currency: 'USD'}}</p>
-                <div>
-                    {{item.c | currency: '%'}}
-                    <img *ngIf="item.c > 0" src="../../assets/up-trend-arrow-flat-icon-vector-40754071-removebg-preview.png" width="30" alt="Trending up">
-                    <img *ngIf="item.c < 0" src="../../assets/1307062.png" width="30" alt="Trending down">
-                </div>
+              <p class="item-price">{{item.s | currency: 'USD'}}</p>
+              <div class="item-change">
+                <span class="item-change-value" [ngClass]="{'positive': item.c > 0, 'negative': item.c < 0}">
+                  {{item.c | currency: '%'}}
+                </span>
+                <img *ngIf="item.c > 0" src="../../assets/up-trend-arrow-flat-icon-vector-40754071-removebg-preview.png" width="30" alt="Trending up">
+                <img *ngIf="item.c < 0" src="../../assets/1307062.png" width="30" alt="Trending down">
+              </div>
             </div>
-        </div>
+          </div>
     </ng-container>
+    <div class="spinner" *ngIf="!wrapper">
+        <mat-spinner></mat-spinner>
+    </div>
 </div>

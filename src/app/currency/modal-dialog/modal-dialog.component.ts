@@ -2,10 +2,8 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Item } from '../../models/item.interface';
 import { RestService } from '../../services/rest.service';
-import { CandleItem } from '../../models/candleItem.interface';
 // Chart
 import {  ChartConfiguration, ChartType } from 'chart.js';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-modal-dialog',
@@ -57,35 +55,47 @@ export class ModalDialogComponent implements OnInit{
   }
   getCandleData(){    
     if (this.currentDate !== this.previousDate) {
-      this.restService.getCandle(this.modalItem.Instrument, this.currentDate)
-        .subscribe((res: any) => {
-          this.candleData = res.candles.map((item: any) => item.mid.o);
-          this.modalTime = res.candles.map((item: any) => item.time.substring(0, 10));
+      this.restService.getCandle(this.modalItem.Instrument)
+        .subscribe((res: any) => { 
+          if(this.currentDate == 'M'){
+            // To find every day data of last month
+            this.candleData = res.candles.map((item: any) => item.mid.o).slice(-30);
+            // To find every day time of last month
+            this.modalTime = res.candles.map((item: any) => item.time.substring(5, 10)).slice(-30);
+          }
+          else{
+            // To find first day data of every month in year
+            this.candleData = res.candles.filter((item: any) => item.time.substr(8, 2) === '01')
+            .map((item: any) => item.mid.o).slice(-12);
+            // To find first day time of every month in year
+            this.modalTime = res.candles.filter((item: any) => item.time.substr(8, 2) === '01')
+            .map((item: any) => item.time.substring(0, 7)).slice(-12)
+            
+          }
         });
     }
     this.previousDate = this.currentDate; // Store the current date as the previous date for the next comparison
   }
+  // Chart option and data
+  public lineChartType: ChartType = 'line';
   public get lineChartData(): ChartConfiguration['data'] {
     return {
       datasets: [
         {
           data: this.candleData|| [],
           label: this.modalItem.name,
-          backgroundColor: this.chartBgColor,
+          backgroundColor: "#EEE",
+          borderColor: "#4169e1",
           fill: 'origin',
         }
       ],
       labels: this.modalTime || [],
     };
   }
-
-  public lineChartOptions: ChartConfiguration['options'] = {
-    
-   
+  public lineChartOptions: ChartConfiguration['options'] = {   
     plugins: {
       legend: { display: true }
     }
   };
-  public lineChartType: ChartType = 'bar';
 
 }

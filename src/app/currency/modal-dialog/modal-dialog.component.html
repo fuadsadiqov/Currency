@@ -1,10 +1,10 @@
 <div class="modal">
   <div class="modal-top" mat-dialog-content>
-    <h3>{{modalItem.name}}</h3>
+    <h4>{{modalItem.name}}</h4>
     <div>
-      <button (click)="toggleChart = false" mat-button>Current</button>
-      <button (click)="changeChartDate('D')" mat-button>Daily</button>
+      <button (click)="toggleChart = false" mat-button>Today</button>
       <button (click)="changeChartDate('M')" mat-button>Monthly</button>
+      <button (click)="changeChartDate('Y')" mat-button>Yearly</button>
     </div>
   </div>
   <div mat-dialog-content *ngIf="!toggleChart">
@@ -12,9 +12,13 @@
     <p>The lowest in the day: {{modalItem.l | currency: "USD"}}</p>
     <p>The highest in the day: {{modalItem.h | currency: "USD"}}</p>
   </div>
-  <div *ngIf="toggleChart">
-    <mat-spinner *ngIf="!candleData"></mat-spinner>
-      <canvas *ngIf="candleData" baseChart class="chart"
+  <div *ngIf="!candleData && toggleChart" class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div class="chart-container" *ngIf="toggleChart && candleData">
+      <canvas baseChart class="chart"    
+              width="500px"
+              height="300px"
               [data]="lineChartData"
               [options]="lineChartOptions"
               [type]="lineChartType">
