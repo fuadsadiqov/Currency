@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Item } from '../../models/item.interface';
 import { RestService } from '../../services/rest.service';
@@ -31,21 +31,9 @@ export class ModalDialogComponent implements OnInit{
   previousDate!: string;
   
   // It change chart background color with their name
-  changeChartColor(){
-    if(this.modalItem.name == 'Gold'){
-      this.chartBgColor = 'gold'
-    }
-    if(this.modalItem.name == 'Silver'){
-      this.chartBgColor = 'silver'
-    }
-    if(this.modalItem.name == "Bitcoin"){
-      this.chartBgColor = "#F2A900"
-    }
-  }
 
   ngOnInit(){    
     this.getCandleData()
-    this.changeChartColor()
   }
 
   changeChartDate(value: string){

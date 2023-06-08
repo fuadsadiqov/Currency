@@ -14,7 +14,8 @@ export class ItemComponent implements OnInit {
   public wrapper: any
   public prevWrapper: any
   private granularity!: string 
-  usdItem: any
+  public itemDetail: any
+  public popUp: boolean = false
   constructor(private restService: RestService, private dialog: MatDialog){}
   ngOnInit(): void {
     this.getData(this.granularity);
@@ -27,12 +28,25 @@ export class ItemComponent implements OnInit {
         },
       });
   }
-  
+  openPopUp(item: Item){
+    this.popUp = true
+    this.restService.getCandle(item.Instrument)
+    .subscribe(res => {
+      this.itemDetail = res
+      // console.log(res);
+      
+    })
+  }  
+  closePopUp(){
+    this.popUp = false
+  }  
   getData(granularity: string) {
-        this.restService.getData(granularity)
-        .subscribe((res: any) => {
-          this.wrapper = res          
-        })
+        // setInterval(() => {
+          this.restService.getData(granularity)
+          .subscribe((res: any) => {
+            this.wrapper = res          
+          })
+        // }, 60000)
   }
     getCurrently() {
       let granularity!: string

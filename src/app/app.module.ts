@@ -3,7 +3,7 @@ import { CurrencyModule } from './currency/currency.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  declarations: [
+  declarations: [  
   ],
   imports: [
     CurrencyModule

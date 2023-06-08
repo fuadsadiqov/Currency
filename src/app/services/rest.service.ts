@@ -6,7 +6,6 @@ import { Observable, forkJoin } from 'rxjs';
   providedIn: 'root'
 })
 export class RestService {
-  
   constructor(private http: HttpClient) {}
   //Api header, url and body 
   baseUrl: string = 'https://dashboard.acuitytrading.com/OandaPriceApi/GetPrice?widgetName=oandainstrumentpage&apikey=4b12e6bb-7ecd-49f7-9bbc-2e03644ce41f';

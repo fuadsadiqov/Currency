@@ -15,12 +15,14 @@ import { MatCardModule } from '@angular/material/card'
 import { MatButtonModule } from '@angular/material/button'
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PopupComponent } from '../popup/popup.component';
 
 @NgModule({
   declarations: [
     ItemComponent,
     ModalDialogComponent,
-    AppComponent
+    AppComponent,
+    PopupComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +33,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     NgChartsModule,
     MatCardModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ]
 })
 export class CurrencyModule { }

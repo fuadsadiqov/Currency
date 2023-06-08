@@ -1,0 +1,12 @@
+<div *ngIf="item">
+  {{item.instrument}}
+  <ul>
+  </ul>
+</div>
+<canvas baseChart class="chart"    
+  width="500px"
+  height="300px"
+  [data]="lineChartData"
+  [options]="lineChartOptions"
+  [type]="lineChartType">
+</canvas>
