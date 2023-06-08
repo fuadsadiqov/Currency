@@ -7,7 +7,7 @@
       <button mat-flat-button (click)="changeChartTime('Y')">Yearly</button>
     </div>
     <ul *ngIf="!chartTime">
-      <li>Current price: {{itemName.s | currency: 'USD'}}</li>
+      <li>Current price:  <span [ngClass]="itemName.c > 0 ? 'positive': 'negative'">{{itemName.s | currency: 'USD'}}</span></li>
       <li>Lowest price of the day: {{itemName.l | currency: 'USD'}}</li>
       <li>Highest price of the day: {{itemName.h | currency: 'USD'}}</li>
     </ul>

@@ -10,9 +10,7 @@ import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
   styleUrls: ['./item.component.scss'],
 })
 export class ItemComponent implements OnInit {  
-  public bitcoin: any = undefined
   public wrapper: any
-  public prevWrapper: any
   private granularity!: string 
   public itemDetail: any
   public popUp: boolean = false
@@ -32,9 +30,7 @@ export class ItemComponent implements OnInit {
     this.popUp = true
     this.restService.getCandle(item.Instrument)
     .subscribe(res => {
-      this.itemDetail = [item, res]
-      // console.log(res);
-      
+      this.itemDetail = [item, res]      
     })
   }  
   closePopUp(){
@@ -46,18 +42,6 @@ export class ItemComponent implements OnInit {
           .subscribe((res: any) => {
             this.wrapper = res          
           })
-        // }, 60000)
+        // }, 1000)
   }
-    getCurrently() {
-      let granularity!: string
-      this.getData(granularity);
-    }
-    getDaily() {
-      const granularity = "D";
-      this.getData(granularity);
-    }
-    getMonthly() {
-      const granularity = "M";
-      this.getData(granularity);
-    }
 }

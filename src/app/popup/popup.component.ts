@@ -13,13 +13,15 @@ import { CandleItem } from '../models/candleItem.interface';
 export class PopupComponent implements OnChanges{
   @Input('item') item!: Array<any>
   constructor(){}
-  
+  // WholeData is candle of item and it divide to candlesData, candlesTime and selected item detail
+  private wholeData!: Array<any>
   public candlesData!: Array<any>
   public candlesTime!: Array<any>
-  public chartTime: string | boolean = false
-  public itemName!: Item
   public itemCandle!: CandleItem
-  private wholeData!: Array<any>
+  // itemName is name of selected item
+  public itemName!: Item
+  // It control chart's time 
+  public chartTime: string | boolean = false
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['item'] && changes['item'].currentValue) {      
@@ -28,7 +30,7 @@ export class PopupComponent implements OnChanges{
       this.itemCandle = this.wholeData[1]
       
       this.candlesData = this.itemCandle.candles.map((item: any) => item.mid.o).slice(-30);
-      this.candlesTime = this.itemCandle.candles.map((item: any) => item.time.substring(5, 10)).slice(-30);
+      this.candlesTime = this.itemCandle.candles.map((item: any) => item.time.substring(5, 10)).slice(-30);      
     }
   }
   changeChartTime(value: string){
