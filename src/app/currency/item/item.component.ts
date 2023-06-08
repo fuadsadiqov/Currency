@@ -32,7 +32,7 @@ export class ItemComponent implements OnInit {
     this.popUp = true
     this.restService.getCandle(item.Instrument)
     .subscribe(res => {
-      this.itemDetail = res
+      this.itemDetail = [item, res]
       // console.log(res);
       
     })

@@ -1,8 +1,8 @@
-<div class="wrapper">
+<div class="wrapper" (mouseleave)="closePopUp()">
     <ng-container *ngFor="let item of wrapper">
-        <div class="item" (click)="openDialog(item)" (mouseenter)="openPopUp(item)" (mouseleave)="closePopUp()">
-            <div class="item-top">
-              <img src="../../assets/{{item.name}}.png" height="20" alt="{{item.name}} icon">
+        <div class="item" (click)="openDialog(item)" (mouseenter)="openPopUp(item)">
+            <div class="item-top">              
+                <img [src]="'../../assets/' + item.name + '.png'" height="20" alt="{{item.name}} icon">
               <span style="margin-top: 10px;">{{item.name}}</span>
             </div>
             <div class="item-bottom">
@@ -17,9 +17,9 @@
             </div>
           </div>
         </ng-container>
+        <app-popup class="popUp" [item]="itemDetail" *ngIf="popUp"></app-popup>
         
         <div class="spinner" *ngIf="!wrapper">
           <mat-spinner></mat-spinner>
         </div>
-        <app-popup class="popUp" [item]="itemDetail" *ngIf="popUp"></app-popup>
   </div>
