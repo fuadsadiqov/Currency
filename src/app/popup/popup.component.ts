@@ -1,6 +1,5 @@
-import { Component, Input, Inject, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Item } from '../models/item.interface'
-import { RestService } from '../services/rest.service';
 // Chart
 import {  ChartConfiguration, ChartType } from 'chart.js';
 import { CandleItem } from '../models/candleItem.interface';
@@ -23,6 +22,7 @@ export class PopupComponent implements OnChanges{
   // It control chart's time 
   public chartTime: string | boolean = false
 
+  @Input('hoveredItem') hoveredItem!: Item
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['item'] && changes['item'].currentValue) {      
       this.wholeData = changes['item'].currentValue

@@ -20,21 +20,48 @@ export class RestService {
     });
     body: string = ''
     // Get all element's data in 1 function
-    getData(data: string): Observable<any> {
+    // getData(data: string): Observable<any> {
+    //   let goldBody = `lang=en-GB&region=OGM&instrumentName=XAU_USD${data ? `&granularity=${data}` : ''}`;
+    //   let silverBody = `lang=en-GB&region=OGM&instrumentName=XAG_USD${data ? `&granularity=${data}` : ''}`;
+    //   let bitcoinBody = `lang=en-GB&region=OGM&instrumentName=BTC_USD${data ? `&granularity=${data}` : ''}`;
+      
+    //   const goldRequest$ = this.http.post(this.baseUrl, goldBody, { headers: this.headers });
+    //   const silverRequest$ = this.http.post(this.baseUrl, silverBody, { headers: this.headers });
+    //   const bitcoinRequest$ = this.http.post(this.baseUrl, bitcoinBody, { headers: this.headers });
+      
+    //   return forkJoin([goldRequest$, silverRequest$, bitcoinRequest$]);
+    // }
+    getGold(data: string): Observable<any> {
       let goldBody = `lang=en-GB&region=OGM&instrumentName=XAU_USD${data ? `&granularity=${data}` : ''}`;
-      let silverBody = `lang=en-GB&region=OGM&instrumentName=XAG_USD${data ? `&granularity=${data}` : ''}`;
-      let bitcoinBody = `lang=en-GB&region=OGM&instrumentName=BTC_USD${data ? `&granularity=${data}` : ''}`;
       
       const goldRequest$ = this.http.post(this.baseUrl, goldBody, { headers: this.headers });
-      const silverRequest$ = this.http.post(this.baseUrl, silverBody, { headers: this.headers });
-      const bitcoinRequest$ = this.http.post(this.baseUrl, bitcoinBody, { headers: this.headers });
       
-      return forkJoin([goldRequest$, silverRequest$, bitcoinRequest$]);
+      return goldRequest$;
+    }
+    getSilver(data: string): Observable<any> {
+      let silverBody = `lang=en-GB&region=OGM&instrumentName=XAG_USD${data ? `&granularity=${data}` : ''}`;
+      
+      const silverRequest$ = this.http.post(this.baseUrl, silverBody, { headers: this.headers });
+      
+      return silverRequest$;
+    }
+    getBTC(data: string): Observable<any> {
+      let btcBody = `lang=en-GB&region=OGM&instrumentName=BTC_USD${data ? `&granularity=${data}` : ''}`;
+      
+      const btcRequest$ = this.http.post(this.baseUrl, btcBody, { headers: this.headers });
+      
+      return btcRequest$;
     }
     // Get every element detail data
     getCandle(instrument: string){
+        if(instrument == 'Crude Oil Prices Brent'){
+          this.getBrand()
+        }
         const url = 'https://dashboard.acuitytrading.com/OandaPriceApi/GetCandles?widgetName=oandainstrumentpage&apikey=4b12e6bb-7ecd-49f7-9bbc-2e03644ce41f'
         let goldBody = `lang=en-GB&region=OGM&instrumentName=${instrument}&granularity=D`;
         return this.http.post(url, goldBody, {headers: this.headers})
+    }
+    getBrand(){
+      return this.http.get('https://www.alphavantage.co/query?function=BRENT&interval=monthly&apikey=5H1N9JO0O35L97E5')
     }
 }

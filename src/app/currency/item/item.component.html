@@ -1,9 +1,12 @@
+<div class="spinner" *ngIf="!wrapper">
+  <mat-spinner></mat-spinner>
+</div>
 <div class="wrapper" (mouseleave)="closePopUp()">
     <ng-container *ngFor="let item of wrapper">
-        <div class="item" (click)="openDialog(item)" (mouseenter)="openPopUp(item)">
+        <div class="item" (mouseenter)="openPopUp(item)">
             <div class="item-top">              
-                <img [src]="'../../assets/' + item.name + '.png'" height="20" alt="{{item.name}} icon">
-              <span style="margin-top: 10px;">{{item.name}}</span>
+                <img *ngIf="item.name" [src]="'../../assets/' + item.name + '.png'" height="20" alt="{{item.name}} icon">
+              <span style="margin-top: 10px; font-weight: 600;">{{item.name}}</span>
             </div>
             <div class="item-bottom">
               <p class="item-price">{{item.s | currency: 'USD'}}</p>
@@ -15,11 +18,7 @@
                 <img *ngIf="item.c < 0" src="../../assets/1307062.png" width="30" alt="Trending down">
               </div>
             </div>
+            <app-popup class="popUp" [item]="itemDetail" [hoveredItem]="hoveredItem" *ngIf="popUp && hoveredItem == item"></app-popup>
           </div>
         </ng-container>
-        <app-popup class="popUp" [item]="itemDetail" *ngIf="popUp"></app-popup>
-        
-        <div class="spinner" *ngIf="!wrapper">
-          <mat-spinner></mat-spinner>
-        </div>
   </div>

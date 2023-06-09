@@ -1,15 +1,15 @@
 <div class="item" *ngIf="item">
-  <h3 class="popUp-title">{{itemName.name}}</h3>
+  <!-- <h3 class="popUp-title">{{hoveredItem.name}}</h3> -->
   <div class="popUp-info">
     <div>
-      <button mat-flat-button (click)="chartTime = false">Today</button>
-      <button mat-flat-button (click)="changeChartTime('M')">Monthly</button>
-      <button mat-flat-button (click)="changeChartTime('Y')">Yearly</button>
+      <button mat-stroked-button (click)="chartTime = false">Today</button>
+      <button mat-stroked-button (click)="changeChartTime('M')">Monthly</button>
+      <button mat-stroked-button (click)="changeChartTime('Y')">Yearly</button>
     </div>
     <ul *ngIf="!chartTime">
-      <li>Current price:  <span [ngClass]="itemName.c > 0 ? 'positive': 'negative'">{{itemName.s | currency: 'USD'}}</span></li>
-      <li>Lowest price of the day: {{itemName.l | currency: 'USD'}}</li>
-      <li>Highest price of the day: {{itemName.h | currency: 'USD'}}</li>
+      <li>Current price:  <span [ngClass]="itemName.c > 0 ? 'positive': 'negative'">{{hoveredItem.s | currency: 'USD'}}</span></li>
+      <li *ngIf="hoveredItem.l">Lowest price of the day: {{hoveredItem.l | currency: 'USD'}}</li>
+      <li *ngIf="hoveredItem.h">Highest price of the day: {{hoveredItem.h | currency: 'USD'}}</li>
     </ul>
   </div>
   <div *ngIf="chartTime" class="chart-container">
