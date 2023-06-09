@@ -19,18 +19,7 @@ export class RestService {
     'pragma': 'no-cache',
     });
     body: string = ''
-    // Get all element's data in 1 function
-    // getData(data: string): Observable<any> {
-    //   let goldBody = `lang=en-GB&region=OGM&instrumentName=XAU_USD${data ? `&granularity=${data}` : ''}`;
-    //   let silverBody = `lang=en-GB&region=OGM&instrumentName=XAG_USD${data ? `&granularity=${data}` : ''}`;
-    //   let bitcoinBody = `lang=en-GB&region=OGM&instrumentName=BTC_USD${data ? `&granularity=${data}` : ''}`;
-      
-    //   const goldRequest$ = this.http.post(this.baseUrl, goldBody, { headers: this.headers });
-    //   const silverRequest$ = this.http.post(this.baseUrl, silverBody, { headers: this.headers });
-    //   const bitcoinRequest$ = this.http.post(this.baseUrl, bitcoinBody, { headers: this.headers });
-      
-    //   return forkJoin([goldRequest$, silverRequest$, bitcoinRequest$]);
-    // }
+
     getGold(): Observable<any> {
       let goldBody = 'lang=en-GB&region=OGM&instrumentName=XAU_USD&granularity=D';
       const goldRequest$ = this.http.post(this.baseUrl, goldBody, { headers: this.headers });
@@ -47,7 +36,13 @@ export class RestService {
       return btcRequest$;
     }
     getBrand(){
-      return this.http.get('https://www.alphavantage.co/query?function=BRENT&interval=monthly&apikey=5H1N9JO0O35L97E5')
+      let brandUrl = 'https://www.alphavantage.co/query?function=BRENT&interval=monthly&apikey=' 
+      let apikey = '5H1N9JO0O35L97E5'
+      return this.http.get(brandUrl + apikey)
+    }
+    getUSD(){
+      let usdUrl = 'https://www.alphavantage.co/query?function=FX_DAILY&from_symbol=USD&to_symbol=AZN&apikey=YOUR_API_KEY'
+      return this.http.get(usdUrl)
     }
     // Get every element detail data
     getCandle(instrument: string){

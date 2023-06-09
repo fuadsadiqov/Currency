@@ -21,6 +21,7 @@ export class ItemComponent implements OnInit {
     this.getGold();
     this.getSilver();
     this.getBtc();
+    this.getBrand()
     this.getUsd()
   }
   // openDialog(item: Item) {
@@ -59,10 +60,9 @@ export class ItemComponent implements OnInit {
       this.wrapper = [...this.wrapper, res]          
     })
   }
-  getUsd(){
+  getBrand(){
     this.restService.getBrand()
     .subscribe((res: any) => {
-      console.log(res);
         this.wrapper = [...this.wrapper, {
           Instrument: res.name,
           name: res.name,
@@ -72,6 +72,35 @@ export class ItemComponent implements OnInit {
           l: undefined,
           data: res.data
         }]
+      })
+    }
+    getUsd(){
+      this.restService.getUSD()
+      .subscribe((res: any) => {  
+        console.log(res);
+        
+        // Find current day USD price
+        let day: any = new Date().getUTCDate()
+        let month: any = new Date().getMonth() + 1
+        let year = new Date().getFullYear()
+        day = day < 10 ? ('0' + day) : day
+        month = month < 10 ? ('0' + month) : month
+        let fullyear = year + '-' + month + '-' + day        
+
+        let main = res['Meta Data']        
+        let data = res['Time Series FX (Daily)']
+        let currentPrice = data[fullyear] 
+        const dataArray = Object.entries(data).map(([date, values]: any) => ({ date, ...values }));
+
+        this.wrapper = [...this.wrapper, {
+          Instrument: main['2. From Symbol'],
+          name: main['2. From Symbol'],
+          c: currentPrice['4. close'],
+          h: currentPrice['2. high'],
+          l: currentPrice['3. low'],
+          s: currentPrice['1. open'],
+          data: dataArray
+      }]      
     })
   }
 }

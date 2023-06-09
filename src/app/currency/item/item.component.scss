@@ -15,6 +15,9 @@
         cursor: pointer;
         box-shadow: 5px 10px 18px -10px rgba(0,0,0,0.75);
       }
+      .item.openPopUp{
+        background-color: red;
+      }
       
       .item:hover {
         background-color: #f1f1f1;

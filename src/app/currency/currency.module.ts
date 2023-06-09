@@ -16,12 +16,14 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PopupComponent } from '../popup/popup.component';
+import { SocketComponent } from '../socket/socket.component';
 
 @NgModule({
   declarations: [
     ItemComponent,
     ModalDialogComponent,
     AppComponent,
+    SocketComponent,
     PopupComponent
   ],
   imports: [
