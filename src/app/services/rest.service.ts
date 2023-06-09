@@ -31,26 +31,23 @@ export class RestService {
       
     //   return forkJoin([goldRequest$, silverRequest$, bitcoinRequest$]);
     // }
-    getGold(data: string): Observable<any> {
-      let goldBody = `lang=en-GB&region=OGM&instrumentName=XAU_USD${data ? `&granularity=${data}` : ''}`;
-      
+    getGold(): Observable<any> {
+      let goldBody = 'lang=en-GB&region=OGM&instrumentName=XAU_USD&granularity=D';
       const goldRequest$ = this.http.post(this.baseUrl, goldBody, { headers: this.headers });
-      
       return goldRequest$;
     }
-    getSilver(data: string): Observable<any> {
-      let silverBody = `lang=en-GB&region=OGM&instrumentName=XAG_USD${data ? `&granularity=${data}` : ''}`;
-      
+    getSilver(): Observable<any> {
+      let silverBody = 'lang=en-GB&region=OGM&instrumentName=XAG_USD&granularity=D';
       const silverRequest$ = this.http.post(this.baseUrl, silverBody, { headers: this.headers });
-      
       return silverRequest$;
     }
-    getBTC(data: string): Observable<any> {
-      let btcBody = `lang=en-GB&region=OGM&instrumentName=BTC_USD${data ? `&granularity=${data}` : ''}`;
-      
+    getBTC(): Observable<any> {
+      let btcBody = 'lang=en-GB&region=OGM&instrumentName=BTC_USD&granularity=D';
       const btcRequest$ = this.http.post(this.baseUrl, btcBody, { headers: this.headers });
-      
       return btcRequest$;
+    }
+    getBrand(){
+      return this.http.get('https://www.alphavantage.co/query?function=BRENT&interval=monthly&apikey=5H1N9JO0O35L97E5')
     }
     // Get every element detail data
     getCandle(instrument: string){
@@ -60,8 +57,5 @@ export class RestService {
         const url = 'https://dashboard.acuitytrading.com/OandaPriceApi/GetCandles?widgetName=oandainstrumentpage&apikey=4b12e6bb-7ecd-49f7-9bbc-2e03644ce41f'
         let goldBody = `lang=en-GB&region=OGM&instrumentName=${instrument}&granularity=D`;
         return this.http.post(url, goldBody, {headers: this.headers})
-    }
-    getBrand(){
-      return this.http.get('https://www.alphavantage.co/query?function=BRENT&interval=monthly&apikey=5H1N9JO0O35L97E5')
     }
 }

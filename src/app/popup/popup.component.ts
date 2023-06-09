@@ -13,7 +13,7 @@ export class PopupComponent implements OnChanges{
   @Input('item') item!: Array<any>
   constructor(){}
   // WholeData is candle of item and it divide to candlesData, candlesTime and selected item detail
-  private wholeData!: Array<any>
+  public wholeData!: Array<any>
   public candlesData!: Array<any>
   public candlesTime!: Array<any>
   public itemCandle!: CandleItem
@@ -28,20 +28,32 @@ export class PopupComponent implements OnChanges{
       this.wholeData = changes['item'].currentValue
       this.itemName = this.wholeData[0]
       this.itemCandle = this.wholeData[1]
-      
-      this.candlesData = this.itemCandle.candles.map((item: any) => item.mid.o).slice(-30);
-      this.candlesTime = this.itemCandle.candles.map((item: any) => item.time.substring(5, 10)).slice(-30);      
+
+      if(this.wholeData[1] == null){
+        this.candlesData = this.wholeData[0].data.map((item: any) => item.value);
+        this.candlesTime = this.wholeData[0].data.map((item: any) => item.time);
+      }
+      else{
+        this.candlesData = this.itemCandle.candles.map((item: any) => item.mid.o).slice(-30);
+        this.candlesTime = this.itemCandle.candles.map((item: any) => item.time.substring(5, 10)).slice(-30);      
+      }
     }
   }
   changeChartTime(value: string){
     this.chartTime = value
-    if(this.chartTime == 'Y'){
-      this.candlesData = this.itemCandle.candles.filter((item: any) => item.time.substr(8, 2) === '01')
-      .map((item: any) => item.mid.o).slice(-12);
-      // To find first day time of every month in year
-      this.candlesTime = this.itemCandle.candles.filter((item: any) => item.time.substr(8, 2) === '01')
-      .map((item: any) => item.time.substring(0, 7)).slice(-12)
-    }
+    if(this.chartTime == 'Y'){      
+      if(this.wholeData[1] == null){
+        
+        this.candlesData = this.wholeData[0].data.map((item: any) => item.value).slice(0, 12).reverse();
+        this.candlesTime = this.wholeData[0].data.map((item: any) => item.date.substring(0, 7)).slice(0, 12).reverse();
+      } 
+      else{
+        this.candlesData = this.itemCandle.candles.filter((item: any) => item.time.substr(8, 2) === '01')
+        .map((item: any) => item.mid.o).slice(-12);
+        this.candlesTime = this.itemCandle.candles.filter((item: any) => item.time.substr(8, 2) === '01')
+        .map((item: any) => item.time.substring(0, 7)).slice(-12)
+        }
+      }
     else{
       this.candlesData = this.itemCandle.candles.map((item: any) => item.mid.o).slice(-30);
       this.candlesTime = this.itemCandle.candles.map((item: any) => item.time.substring(5, 10)).slice(-30);

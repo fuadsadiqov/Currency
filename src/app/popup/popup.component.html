@@ -1,9 +1,8 @@
 <div class="item" *ngIf="item">
-  <!-- <h3 class="popUp-title">{{hoveredItem.name}}</h3> -->
   <div class="popUp-info">
     <div>
       <button mat-stroked-button (click)="chartTime = false">Today</button>
-      <button mat-stroked-button (click)="changeChartTime('M')">Monthly</button>
+      <button [disabled]="wholeData[1] == null" mat-stroked-button (click)="changeChartTime('M')">Monthly</button>
       <button mat-stroked-button (click)="changeChartTime('Y')">Yearly</button>
     </div>
     <ul *ngIf="!chartTime">
