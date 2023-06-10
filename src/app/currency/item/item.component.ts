@@ -76,9 +76,7 @@ export class ItemComponent implements OnInit {
     }
     getUsd(){
       this.restService.getUSD()
-      .subscribe((res: any) => {  
-        console.log(res);
-        
+      .subscribe((res: any) => {          
         // Find current day USD price
         let day: any = new Date().getUTCDate()
         let month: any = new Date().getMonth() + 1

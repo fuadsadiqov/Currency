@@ -1,37 +1,40 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable } from 'rxjs';
+
+export const WEBSOCKET_SERVICE_TOKEN = 'WEBSOCKET_SERVICE_TOKEN';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
+  useFactory: () => new WebSocketService(), // Use a factory function to create a new instance
+  deps: []
 })
-export class WebsocketService {
+export class WebSocketService {
   private socket!: WebSocket;
-  public messages: Subject<any> = new Subject<any>();
 
   constructor() { }
-  
-  public connect(url: string): void {
+
+  connect(url: string): Observable<any> {
     this.socket = new WebSocket(url);
-    
-    this.socket.onopen = () => {
-      console.log('WebSocket connection established.');
-    };
 
-    this.socket.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      this.messages.next(message);
-    };
+    return new Observable<any>(observer => {
+      this.socket.onmessage = (event: MessageEvent) => {
+        observer.next(JSON.parse(event.data));
+      };
 
-    this.socket.onclose = (event) => {
-      console.log('WebSocket connection closed:', event);
-    };
+      this.socket.onerror = (error) => {
+        observer.error(error);
+      };
+
+      this.socket.onclose = () => {
+        observer.complete();
+      };
+    });
   }
 
-  public send(message: any): void {
-    this.socket.send(JSON.stringify(message));
-  }
-
-  public close(): void {
-    this.socket.close();
+  disconnect() {
+    if (this.socket) {
+      this.socket.close();
+    }
   }
 }
+export default WebSocketService; // Add this line if it's missing

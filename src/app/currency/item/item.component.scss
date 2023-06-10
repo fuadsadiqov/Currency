@@ -73,6 +73,18 @@
         // left: 50%;
         // transform: translateX(-50%);
       }
+      .positiveItem{
+        background-color: rgba($color: green, $alpha: 0.3);
+        &:hover{
+          background-color: rgba($color: green, $alpha: 0.55);
+        }
+      }
+      .negativeItem{
+        background-color: rgba($color: red, $alpha: 0.3);
+        &:hover{
+        background-color: rgba($color: red, $alpha: 0.55);          
+        }
+      }
     }
     .spinner{
       width: 100%;

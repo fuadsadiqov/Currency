@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable } from 'rxjs';
+import { WebSocketService } from './socket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,10 @@ export class RestService {
     body: string = ''
 
     getGold(): Observable<any> {
+      // const goldUrl = 'wss://dashboard.acuitytrading.com/OandaPriceApi/GetPrice?widgetName=oandainstrumentpage&apikey=4b12e6bb-7ecd-49f7-9bbc-2e03644ce41f';
+      // this.webSocketService.connect(goldUrl);
+      // return this.webSocketService.connect(goldUrl);
+
       let goldBody = 'lang=en-GB&region=OGM&instrumentName=XAU_USD&granularity=D';
       const goldRequest$ = this.http.post(this.baseUrl, goldBody, { headers: this.headers });
       return goldRequest$;
