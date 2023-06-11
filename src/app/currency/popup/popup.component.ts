@@ -24,12 +24,11 @@ export class PopupComponent implements OnChanges{
 
   @Input('hoveredItem') hoveredItem!: Item
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['item'] && changes['item'].currentValue) {      
+    if (changes['item'] && changes['item'].currentValue) {            
       this.wholeData = changes['item'].currentValue
       this.itemName = this.wholeData[0]
       this.itemCandle = this.wholeData[1]
       
-
       if(this.wholeData[1] == null){
         if(this.wholeData[0].name == "USD"){          
           this.candlesData = this.wholeData[0].data.map((item: any) => item['1. open']).slice(0, 30);

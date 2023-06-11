@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+  import { Component, OnInit } from '@angular/core';
 import { RestService } from '../../services/rest.service';
-import { Item } from '../../models/item.interface';
+import { Item } from '../models/item.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
 
@@ -22,7 +22,7 @@ export class ItemComponent implements OnInit {
     this.getSilver();
     this.getBtc();
     this.getBrand()
-    this.getUsd()
+    this.getUsd()    
   }
   // openDialog(item: Item) {
   //     this.dialog.open(ModalDialogComponent, {
@@ -43,9 +43,11 @@ export class ItemComponent implements OnInit {
     this.popUp = false  
   }  
   getGold() {
+    let previousValue: any
     this.restService.getGold()
-    .subscribe((res: any) => {      
-      this.wrapper = [...this.wrapper, res]          
+    .subscribe((res: any) => {
+        previousValue = res
+        this.wrapper = [...this.wrapper, res]          
     })
   }
   getSilver() {
@@ -76,29 +78,30 @@ export class ItemComponent implements OnInit {
     }
     getUsd(){
       this.restService.getUSD()
-      .subscribe((res: any) => {          
+      .subscribe((res: any) => {         
+               
         // Find current day USD price
         let day: any = new Date().getUTCDate()
         let month: any = new Date().getMonth() + 1
         let year = new Date().getFullYear()
         day = day < 10 ? ('0' + day) : day
         month = month < 10 ? ('0' + month) : month
-        let fullyear = year + '-' + month + '-' + day        
-
+        // let fullyear = year + '-' + month + '-' + day        
+        
         let main = res['Meta Data']        
         let data = res['Time Series FX (Daily)']
-        let currentPrice = data[fullyear] 
+        let currentPrice = data['2023-06-09'] 
         const dataArray = Object.entries(data).map(([date, values]: any) => ({ date, ...values }));
-
+        
         this.wrapper = [...this.wrapper, {
           Instrument: main['2. From Symbol'],
           name: main['2. From Symbol'],
-          c: currentPrice['4. close'],
+          s: currentPrice['1. open'],
           h: currentPrice['2. high'],
           l: currentPrice['3. low'],
-          s: currentPrice['1. open'],
-          data: dataArray
-      }]      
+          c: currentPrice['4. close'],
+          data: dataArray,
+        }]            
     })
   }
 }

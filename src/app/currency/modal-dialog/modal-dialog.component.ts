@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Item } from '../../models/item.interface';
+import { Item } from '../models/item.interface';
 import { RestService } from '../../services/rest.service';
 // Chart
 import {  ChartConfiguration, ChartType } from 'chart.js';
