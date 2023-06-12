@@ -1,8 +1,7 @@
-  import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RestService } from '../../services/rest.service';
 import { Item } from '../models/item.interface';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
 
 @Component({
   selector: 'app-item',
@@ -24,13 +23,6 @@ export class ItemComponent implements OnInit {
     this.getBrand()
     this.getUsd()    
   }
-  // openDialog(item: Item) {
-  //     this.dialog.open(ModalDialogComponent, {
-  //       data: {
-  //         item: item,
-  //       },
-  //     });
-  // }
   openPopUp(item: Item){  
     this.hoveredItem = item
     this.popUp = true
@@ -91,6 +83,7 @@ export class ItemComponent implements OnInit {
         let main = res['Meta Data']        
         let data = res['Time Series FX (Daily)']
         let currentPrice = data['2023-06-09'] 
+        let yesterdayPrice = data['2023-06-08'] 
         const dataArray = Object.entries(data).map(([date, values]: any) => ({ date, ...values }));
         
         this.wrapper = [...this.wrapper, {
@@ -99,7 +92,7 @@ export class ItemComponent implements OnInit {
           s: currentPrice['1. open'],
           h: currentPrice['2. high'],
           l: currentPrice['3. low'],
-          c: currentPrice['4. close'],
+          c: ((currentPrice['4. close'] - yesterdayPrice['4. close']) / currentPrice['4. close']) * 100,
           data: dataArray,
         }]            
     })

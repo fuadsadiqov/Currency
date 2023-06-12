@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { WebSocketService } from './socket.service';
+import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +9,9 @@ import { WebSocketService } from './socket.service';
 export class RestService {
   constructor(private http: HttpClient) {}
   //Api header, url and body 
-  baseUrl: string = 'https://dashboard.acuitytrading.com/OandaPriceApi/GetPrice?widgetName=oandainstrumentpage&apikey=4b12e6bb-7ecd-49f7-9bbc-2e03644ce41f';
-  headers = new HttpHeaders({
+  private apiKey: string = '4b12e6bb-7ecd-49f7-9bbc-2e03644ce41f'
+  private baseUrl: string = `https://dashboard.acuitytrading.com/OandaPriceApi/GetPrice?widgetName=oandainstrumentpage&apikey=${this.apiKey}`;
+  private headers = new HttpHeaders({
     'authority': 'dashboard.acuitytrading.com',
     'accept': 'application/json, text/plain, */*',
     'accept-language': 'en,ru;q=0.9',
@@ -19,13 +20,26 @@ export class RestService {
     'content-type': 'application/x-www-form-urlencoded',
     'pragma': 'no-cache',
     });
-    body: string = ''
 
+  private socket$!: WebSocketSubject<any>;
+  private messages$!: Observable<any>;
+
+    getWebSocket(): Observable<any> {
+      const apiUrl = `wss://dashboard.acuitytrading.com/OandaPriceApi/GetPrice?widgetName=oandainstrumentpage&apikey=4b12e6bb-7ecd-49f7-9bbc-2e03644ce41f`;
+      const goldBody = 'lang=en-GB&region=OGM&instrumentName=XAU_USD&granularity=D';
+    
+      // Establish WebSocket connection
+      this.socket$ = webSocket(apiUrl);
+      this.messages$ = this.socket$.asObservable();
+    
+      // Send the message over the WebSocket connection
+      this.socket$.next(goldBody);
+      
+    
+      // Return the messages observable
+      return this.messages$;
+    }
     getGold(): Observable<any> {
-      // const goldUrl = 'wss://dashboard.acuitytrading.com/OandaPriceApi/GetPrice?widgetName=oandainstrumentpage&apikey=4b12e6bb-7ecd-49f7-9bbc-2e03644ce41f';
-      // this.webSocketService.connect(goldUrl);
-      // return this.webSocketService.connect(goldUrl);
-
       let goldBody = 'lang=en-GB&region=OGM&instrumentName=XAU_USD&granularity=D';
       const goldRequest$ = this.http.post(this.baseUrl, goldBody, { headers: this.headers });
       return goldRequest$;
