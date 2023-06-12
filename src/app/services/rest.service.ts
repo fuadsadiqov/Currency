@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 
 @Injectable({
   providedIn: 'root'
@@ -21,24 +20,6 @@ export class RestService {
     'pragma': 'no-cache',
     });
 
-  private socket$!: WebSocketSubject<any>;
-  private messages$!: Observable<any>;
-
-    getWebSocket(): Observable<any> {
-      const apiUrl = `wss://dashboard.acuitytrading.com/OandaPriceApi/GetPrice?widgetName=oandainstrumentpage&apikey=4b12e6bb-7ecd-49f7-9bbc-2e03644ce41f`;
-      const goldBody = 'lang=en-GB&region=OGM&instrumentName=XAU_USD&granularity=D';
-    
-      // Establish WebSocket connection
-      this.socket$ = webSocket(apiUrl);
-      this.messages$ = this.socket$.asObservable();
-    
-      // Send the message over the WebSocket connection
-      this.socket$.next(goldBody);
-      
-    
-      // Return the messages observable
-      return this.messages$;
-    }
     getGold(): Observable<any> {
       let goldBody = 'lang=en-GB&region=OGM&instrumentName=XAU_USD&granularity=D';
       const goldRequest$ = this.http.post(this.baseUrl, goldBody, { headers: this.headers });

@@ -38,6 +38,8 @@ export class ItemComponent implements OnInit {
     let previousValue: any
     this.restService.getGold()
     .subscribe((res: any) => {
+      console.log(res);
+      
         previousValue = res
         this.wrapper = [...this.wrapper, res]          
     })

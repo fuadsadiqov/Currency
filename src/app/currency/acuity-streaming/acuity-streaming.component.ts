@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import { Observable } from 'rxjs';
 import { RestService } from 'src/app/services/rest.service';
 import { WebSocketService } from 'src/app/services/socket.service';
 
@@ -10,15 +8,16 @@ import { WebSocketService } from 'src/app/services/socket.service';
   styleUrls: ['./acuity-streaming.component.scss']
 })
 export class AcuityStreamingComponent implements OnInit {
-  constructor(private restService: RestService,private webSocketService:WebSocketService){}
+  constructor(private restService: RestService, private webSocketService: WebSocketService){}
 
   ngOnInit(): void {  
-    // this.restService.getWebSocket()
-    // .subscribe(res => {
-    //   console.log(res);
-    // })   
-
-    this.webSocketService.connect();
-
+    this.webSocketService.socket$.subscribe(
+      (msg: any) => {
+        console.log(msg);      
+      }
+    )
+  }
+  sendMsg(message: string){
+    this.webSocketService.sendMessage(message) 
   }
 }

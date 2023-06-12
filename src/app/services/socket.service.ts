@@ -1,18 +1,27 @@
 import { Injectable } from '@angular/core';
-import { EMPTY, Subject, catchError, switchAll, tap } from 'rxjs';
+import { EMPTY, catchError, tap } from 'rxjs';
 import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebSocketService {
-  private socket$: WebSocketSubject<any> | undefined;
-  private messagesSubject$ = new Subject();
-  public messages$ = this.messagesSubject$.pipe(
-    tap({
+  public socket$: WebSocketSubject<any>
+  private apiKey: string = '4b12e6bb-7ecd-49f7-9bbc-2e03644ce41f'
+  private WS_ENDPOINT = 'wss://dashboard.acuitytrading.com/OandaPriceApi/GetPrice?widgetName=oandainstrumentpage&apikey=' + this.apiKey;
+  // private WS_ENDPOINT = 'wss://api.acuitytrading.com/api/streaming?apiKey=' + this.apiKey;
+  messagesSubject$: any;
 
-    })
-    ,catchError((e: any) => { throw e }));
+  constructor(){
+    this.socket$ = new WebSocketSubject(this.WS_ENDPOINT)
+  }
+  sendWebSocketMessage(message: any) {
+    this.socket$.next(message);
+  }
+  // public messages$ = this.messagesSubject$.pipe(
+  //   tap({
+  //   })
+  //   ,catchError((e: any) => { throw e }));
   
   public connect(): void {
     if (!this.socket$ || this.socket$.closed) {
@@ -24,11 +33,15 @@ export class WebSocketService {
       this.messagesSubject$.next(messages);
     }
   }
-   WS_ENDPOINT='wss://api.acuitytrading.com/api/streaming?apiKey=4b12e6bb-7ecd-49f7-9bbc-2e03644ce41f';
   private getNewWebSocket() {
     return webSocket({
       url:this.WS_ENDPOINT,
-      serializer: msg => JSON.stringify({roles: "admin,user", msg})
+      serializer: msg => JSON.stringify({
+        ["action"]: "subscribe",
+        ["topic"]: "sentiments",
+        ["period"]: 1,
+        ["format"]: 0
+      })
     })
   }
   sendMessage(msg: any) {
