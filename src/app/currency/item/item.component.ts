@@ -49,7 +49,7 @@ export class ItemComponent implements OnInit {
         .subscribe((res: any) => {
             this.wrapper = [...this.wrapper, res]          
         })
-      // }, 1000)
+      // }, 5000)
   }
   getSilver() {
     this.restService.getSilver()
@@ -93,8 +93,8 @@ export class ItemComponent implements OnInit {
 
         let main = res['Meta Data']        
         let data = res['Time Series FX (Daily)']
-        let currentPrice = data[todayDate]  
-        let yesterdayPrice = data[yesterdayDate] 
+        let currentPrice = data[todayDate]
+        let yesterdayPrice = data[yesterdayDate]
         const dataArray = Object.entries(data).map(([date, values]: any) => ({ date, ...values }));
         
         this.wrapper = [...this.wrapper, {
