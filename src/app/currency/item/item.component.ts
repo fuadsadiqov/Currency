@@ -24,24 +24,32 @@ export class ItemComponent implements OnInit {
     this.getBrand()
     this.getUsd()        
   }
-  openPopUp(item: Item){  
-    this.hoveredItem = item
-    this.popUp = true
-    this.restService.getCandle(item.Instrument)
-    .subscribe(res => {
-      this.itemDetail = [item, res]      
-    })
-  }  
+  openPopUp(item: Item) {
+    this.hoveredItem = item;
+    
+    const cachedCandleData = localStorage.getItem(item.Instrument);
+  
+    if (cachedCandleData) {
+      this.itemDetail = [item, JSON.parse(cachedCandleData)];
+      this.popUp = true;
+    } else {
+      this.restService.getCandle(item.Instrument).subscribe(res => {
+        this.itemDetail = [item, res];
+        this.popUp = true;
+        localStorage.setItem(item.Instrument, JSON.stringify(res));
+      });
+    }
+  }
   closePopUp(){
     this.popUp = false  
   }  
   getGold() {
-    let previousValue: any
-    this.restService.getGold()
-    .subscribe((res: any) => {
-        previousValue = res
-        this.wrapper = [...this.wrapper, res]          
-    })
+    // setInterval(() => {
+        this.restService.getGold()
+        .subscribe((res: any) => {
+            this.wrapper = [...this.wrapper, res]          
+        })
+      // }, 1000)
   }
   getSilver() {
     this.restService.getSilver()
@@ -79,12 +87,14 @@ export class ItemComponent implements OnInit {
         let year = new Date().getFullYear()
         day = day < 10 ? ('0' + day) : day
         month = month < 10 ? ('0' + month) : month
-        // let fullyear = year + '-' + month + '-' + day        
-        
+        let yesterday = (day - 1) < 10 ? ('0' + (day - 1)) : (day - 1)
+        let todayDate = year + '-' + month + '-' + day        
+        let yesterdayDate = year + '-' + month + '-' + yesterday         
+
         let main = res['Meta Data']        
         let data = res['Time Series FX (Daily)']
-        let currentPrice = data['2023-06-09'] 
-        let yesterdayPrice = data['2023-06-08'] 
+        let currentPrice = data[todayDate]  
+        let yesterdayPrice = data[yesterdayDate] 
         const dataArray = Object.entries(data).map(([date, values]: any) => ({ date, ...values }));
         
         this.wrapper = [...this.wrapper, {
@@ -99,6 +109,7 @@ export class ItemComponent implements OnInit {
     })
   }
   filteredItem(value: string){
-    this.filteredWrapper = this.wrapper.filter(item => item.name.toLocaleLowerCase().includes(value.toLocaleLowerCase()))     
+    this.filteredWrapper = 
+    this.wrapper.filter((item: Item) => item.name.toLocaleLowerCase().includes(value.toLocaleLowerCase()))  
   }
 }
