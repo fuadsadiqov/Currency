@@ -18,9 +18,9 @@ export class RestService {
     'cache-control': 'no-cache',
     'content-type': 'application/x-www-form-urlencoded',
     'pragma': 'no-cache',
-    });
-
-    getGold(): Observable<any> {
+  });
+  
+  getGold(): Observable<any> {
       let goldBody = 'lang=en-GB&region=OGM&instrumentName=XAU_USD&granularity=D';
       const goldRequest$ = this.http.post(this.baseUrl, goldBody, { headers: this.headers });
       return goldRequest$;

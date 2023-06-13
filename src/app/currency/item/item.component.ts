@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ItemComponent implements OnInit {  
   public wrapper: Item[] = []
+  public filteredWrapper!: Item[] 
   public itemDetail: any
   public popUp: boolean = false
   public hoveredItem!: Item
@@ -21,7 +22,7 @@ export class ItemComponent implements OnInit {
     this.getSilver();
     this.getBtc();
     this.getBrand()
-    this.getUsd()    
+    this.getUsd()        
   }
   openPopUp(item: Item){  
     this.hoveredItem = item
@@ -38,8 +39,6 @@ export class ItemComponent implements OnInit {
     let previousValue: any
     this.restService.getGold()
     .subscribe((res: any) => {
-      console.log(res);
-      
         previousValue = res
         this.wrapper = [...this.wrapper, res]          
     })
@@ -98,5 +97,8 @@ export class ItemComponent implements OnInit {
           data: dataArray,
         }]            
     })
+  }
+  filteredItem(value: string){
+    this.filteredWrapper = this.wrapper.filter(item => item.name.toLocaleLowerCase().includes(value.toLocaleLowerCase()))     
   }
 }

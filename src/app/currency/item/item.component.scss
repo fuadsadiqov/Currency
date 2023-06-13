@@ -93,3 +93,16 @@
       align-items: center;
       justify-content: center;
     }
+.search-container{
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+  .search-input{
+    width: 260px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    padding: 0 10px;
+  }
+}

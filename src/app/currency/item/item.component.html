@@ -1,8 +1,11 @@
 <div class="spinner" *ngIf="wrapper.length == 0">
   <mat-spinner></mat-spinner>
 </div>
+<div class="search-container">
+  <input type="text" placeholder="Search" class="search-input" (keyup)="filteredItem(inputValue.value)" #inputValue>
+</div>
 <div class="wrapper" (mouseleave)="closePopUp()">
-    <ng-container [class.openPopUp]="popUp" *ngFor="let item of wrapper">
+  <ng-container [class.openPopUp]="popUp" *ngFor="let item of (filteredWrapper ? filteredWrapper : wrapper)">
         <div class="item" [class.positiveItem]="item.c > 0" [class.negativeItem]="item.c < 0" (mouseenter)="openPopUp(item)">
             <div class="item-top">              
                 <img *ngIf="item.name" [src]="'../../assets/' + item.name + '.png'" height="20" alt="{{item.name}} icon">
