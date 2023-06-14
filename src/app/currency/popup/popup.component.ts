@@ -3,8 +3,6 @@ import { Item } from '../models/item.interface'
 // Chart
 import {  ChartConfiguration, ChartType } from 'chart.js';
 import { CandleItem } from '../models/candleItem.interface';
-import { FormControl } from '@angular/forms';
-import { createMask } from '@ngneat/input-mask';
 
 @Component({
   selector: 'app-popup',
