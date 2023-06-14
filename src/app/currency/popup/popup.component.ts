@@ -23,7 +23,9 @@ export class PopupComponent implements OnChanges{
   public itemName!: Item
   // It control chart's time 
   public isChart: string | boolean = false
-
+  public basePrice!: number;
+  public resultPrice!: number | undefined;
+  
   @Input('hoveredItem') hoveredItem!: Item
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['item'] && changes['item'].currentValue) {            
@@ -69,11 +71,9 @@ export class PopupComponent implements OnChanges{
       this.candlesChartTime = this.itemCandle.candles.map((item: any) => item.time.substring(5, 10)).slice(-30);
     }
   }
-  base!: number;
-  result!: number | undefined;
   
-  calculatePower() {
-    this.result = this.base * this.hoveredItem.s;
+  calculateCurrency() {
+    this.resultPrice = this.basePrice * this.hoveredItem.s;
   }
   
   public lineChartType: ChartType = 'line';

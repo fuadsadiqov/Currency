@@ -13,12 +13,12 @@
         <input 
           placeholder="1"
           type="number" 
-          (keyup)="calculatePower()" [(ngModel)]="base">
+          (keyup)="calculateCurrency()" [(ngModel)]="basePrice">
         <input 
           disabled
           type="number" 
           [value]="hoveredItem.s" >
-        <span *ngIf="result != 0 && result"> = {{result | currency: "USD"}}</span>
+        <span *ngIf="resultPrice != 0 && resultPrice"> = {{resultPrice | currency: "USD"}}</span>
       </div>
     </ul>  
   </div>
