@@ -1,17 +1,17 @@
 <div class="item" *ngIf="item">
   <div class="popUp-info">
     <div>
-      <button mat-stroked-button (click)="chartTime = false">Today</button>
-      <button [disabled]="wholeData[1] == null && this.wholeData[0].name != 'USD'" mat-stroked-button (click)="changeChartTime('M')">Monthly</button>
-      <button [disabled]="wholeData[1] == null && this.wholeData[0].name == 'USD'" mat-stroked-button (click)="changeChartTime('Y')">Yearly</button>
+      <button mat-stroked-button (click)="isChart = false">Today</button>
+      <button [disabled]="allData[1] == null && this.allData[0].name != 'USD'" mat-stroked-button (click)="changeChartTime('M')">Monthly</button>
+      <button [disabled]="allData[1] == null && this.allData[0].name == 'USD'" mat-stroked-button (click)="changeChartTime('Y')">Yearly</button>
     </div>
-    <ul *ngIf="!chartTime">
+    <ul *ngIf="!isChart">
       <li>Current price:  <span [ngClass]="itemName.c > 0 ? 'positive': 'negative'">{{hoveredItem.s | currency: 'USD'}}</span></li>
       <li *ngIf="hoveredItem.l">Lowest price of the day: {{hoveredItem.l | currency: 'USD'}}</li>
       <li *ngIf="hoveredItem.h">Highest price of the day: {{hoveredItem.h | currency: 'USD'}}</li>
     </ul>
   </div>
-  <div *ngIf="chartTime" class="chart-container">
+  <div *ngIf="isChart" class="chart-container">
     <canvas baseChart 
     class="chart"    
     [data]="lineChartData"

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../../services/rest.service';
 import { Item } from '../models/item.interface';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-item',
@@ -15,30 +14,27 @@ export class ItemComponent implements OnInit {
   public popUp: boolean = false
   public hoveredItem!: Item
   
-  constructor(private restService: RestService, private dialog: MatDialog){}
+  constructor(private restService: RestService){}
   
   ngOnInit(): void {
     this.getGold();
     this.getSilver();
-    this.getBtc();
-    this.getBrand()
+    this.getBitcoin();
+    this.getOilBrand()
     this.getUsd()        
   }
   openPopUp(item: Item) {
     this.hoveredItem = item;
-    
     const cachedCandleData = localStorage.getItem(item.Instrument);
-  
     if (cachedCandleData) {
       this.itemDetail = [item, JSON.parse(cachedCandleData)];
-      this.popUp = true;
     } else {
       this.restService.getCandle(item.Instrument).subscribe(res => {
         this.itemDetail = [item, res];
-        this.popUp = true;
         localStorage.setItem(item.Instrument, JSON.stringify(res));
       });
     }
+    this.popUp = true;
   }
   closePopUp(){
     this.popUp = false  
@@ -57,13 +53,13 @@ export class ItemComponent implements OnInit {
       this.wrapper = [...this.wrapper, res]          
     })
   }
-  getBtc() {
+  getBitcoin() {
     this.restService.getBTC()
     .subscribe((res: any) => {
       this.wrapper = [...this.wrapper, res]          
     })
   }
-  getBrand(){
+  getOilBrand(){
     this.restService.getBrand()
     .subscribe((res: any) => {
         this.wrapper = [...this.wrapper, {
@@ -77,10 +73,7 @@ export class ItemComponent implements OnInit {
         }]
       })
     }
-    getUsd(){
-      this.restService.getUSD()
-      .subscribe((res: any) => {         
-               
+    getCurrentDate(response: any){
         // Find current day USD price
         let day: any = new Date().getUTCDate()
         let month: any = new Date().getMonth() + 1
@@ -91,12 +84,17 @@ export class ItemComponent implements OnInit {
         let todayDate = year + '-' + month + '-' + day        
         let yesterdayDate = year + '-' + month + '-' + yesterday         
 
-        let main = res['Meta Data']        
-        let data = res['Time Series FX (Daily)']
+        let main = response['Meta Data']        
+        let data = response['Time Series FX (Daily)']
         let currentPrice = data[todayDate]
         let yesterdayPrice = data[yesterdayDate]
         const dataArray = Object.entries(data).map(([date, values]: any) => ({ date, ...values }));
-        
+        return {dataArray, main, currentPrice, yesterdayPrice}
+    }
+    getUsd(){
+      this.restService.getUSD()
+      .subscribe((res: any) => {         
+        const { dataArray, currentPrice, main, yesterdayPrice } = this.getCurrentDate(res)
         this.wrapper = [...this.wrapper, {
           Instrument: main['2. From Symbol'],
           name: main['2. From Symbol'],
@@ -108,6 +106,7 @@ export class ItemComponent implements OnInit {
         }]            
     })
   }
+  // Search function
   filteredItem(value: string){
     this.filteredWrapper = 
     this.wrapper.filter((item: Item) => item.name.toLocaleLowerCase().includes(value.toLocaleLowerCase()))  
