@@ -20,7 +20,7 @@ Calculate function:
 Follow the steps below to set up the Angular Currency Tracker on your local machine:
 
 1. Clone the repository:
-    git clone `https://github.com/your-username/angular-currency-tracker.git`
+    git clone `https://github.com/fuadsadiqov/Currency.git`
 Navigate to the project directory:
     cd angular-currency-tracker
 Install the dependencies:
@@ -45,9 +45,10 @@ The Angular Currency Tracker is built using the following technologies:
 
     Angular
     HTML
-    CSS
+    SCSS
     TypeScript
     Chart.js
+    Angular Material
 ## Contributing
 If you would like to contribute to the development of the Angular Currency Tracker, please follow these guidelines:
 
