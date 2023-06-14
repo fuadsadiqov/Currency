@@ -63,6 +63,6 @@ This project is licensed under the MIT License. See the `LICENSE` file for more 
     This project utilizes the currency data provided by XYZ API (replace XYZ with the appropriate data source).
     Thanks to the contributors and the open-source community for their valuable contributions.
 ## Contact
-    For any questions or suggestions, please contact us at [sadiqovfuad8@gmail.com](https://fuadweb.com).
+    For any questions or suggestions, please contact us at sadiqovfuad8@gmail.com.
 
 Thank you for using the Angular Currency Tracker! We hope you find it useful for monitoring currency values and analyzing historical trends.
