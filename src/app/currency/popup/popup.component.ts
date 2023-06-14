@@ -3,6 +3,8 @@ import { Item } from '../models/item.interface'
 // Chart
 import {  ChartConfiguration, ChartType } from 'chart.js';
 import { CandleItem } from '../models/candleItem.interface';
+import { FormControl } from '@angular/forms';
+import { createMask } from '@ngneat/input-mask';
 
 @Component({
   selector: 'app-popup',
@@ -67,7 +69,13 @@ export class PopupComponent implements OnChanges{
       this.candlesChartTime = this.itemCandle.candles.map((item: any) => item.time.substring(5, 10)).slice(-30);
     }
   }
-
+  base!: number;
+  result!: number | undefined;
+  
+  calculatePower() {
+    this.result = this.base * this.hoveredItem.s;
+  }
+  
   public lineChartType: ChartType = 'line';
   public get lineChartData(): ChartConfiguration['data'] {
     return {

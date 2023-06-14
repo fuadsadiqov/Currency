@@ -10,11 +10,13 @@ import { ItemComponent } from './item/item.component';
 import { PopupComponent } from './popup/popup.component';
 // NgChart
 import { NgChartsModule } from 'ng2-charts';
-// Angular Material
+// Angular Material Modules
 import { MatCardModule } from '@angular/material/card'
 import { MatButtonModule } from '@angular/material/button'
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+// Input Mask Module
+import { TextMaskModule } from 'angular2-text-mask';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatCardModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    TextMaskModule
   ],
   providers: []
 })

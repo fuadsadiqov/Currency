@@ -9,7 +9,18 @@
       <li>Current price:  <span [ngClass]="itemName.c > 0 ? 'positive': 'negative'">{{hoveredItem.s | currency: 'USD'}}</span></li>
       <li *ngIf="hoveredItem.l">Lowest price of the day: {{hoveredItem.l | currency: 'USD'}}</li>
       <li *ngIf="hoveredItem.h">Highest price of the day: {{hoveredItem.h | currency: 'USD'}}</li>
-    </ul>
+      <div class="calculate">
+        <input 
+          placeholder="1"
+          type="number" 
+          (keyup)="calculatePower()" [(ngModel)]="base">
+        <input 
+          disabled
+          type="number" 
+          [value]="hoveredItem.s" >
+        <span *ngIf="result != 0 && result"> = {{result | currency: "USD"}}</span>
+      </div>
+    </ul>  
   </div>
   <div *ngIf="isChart" class="chart-container">
     <canvas baseChart 
